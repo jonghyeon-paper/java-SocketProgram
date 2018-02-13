@@ -1,0 +1,59 @@
+package sample3;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class SocketController {
+	
+	private static SocketController instance;
+	
+	private Socket socket = null;
+	private MessageSender messageSender;
+	private MessageReceiver messageReceiver;
+	
+	private SocketController() {
+		try {
+			socket = new Socket("127.0.0.1", 12000);
+			
+			messageReceiver = new MessageReceiver(socket);
+			messageReceiver.start();
+			messageSender = new MessageSender(socket);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			this.close();
+		}
+	}
+	
+	public static SocketController getInstance() {
+		if (instance == null) {
+			instance = new SocketController();
+		}
+		return instance;
+	}
+	
+	public MessageSender getMessageSender() {
+		return messageSender;
+	}
+	
+	public void close() {
+		if (instance != null) {
+			if (messageReceiver.isAlive()) {
+				messageReceiver.interrupt(); // 버퍼 리드 상태라 쓰레드를 정지시킬 수 없다. // 대안1. NIO. 
+				System.out.println("kill messageReceiver");
+			}
+			
+			try {
+				if (socket != null) {
+					socket.close();
+				}
+				System.out.println("socket close");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
