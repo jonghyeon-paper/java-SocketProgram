@@ -1,3 +1,4 @@
+package sample2;
 import java.io.PrintWriter;
 
 public class TickMessage extends Thread {

@@ -1,33 +1,37 @@
-import java.io.BufferedReader;
+package sample2;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class SampleThreadClient {
-	
-	private Socket socket = null;
-	
-	private SampleThreadClient() {
+	public static void main(String[] args) {
 		try {
-			socket = new Socket("127.0.0.1", 12000);
+			Socket socket = new Socket("127.0.0.1", 12000);
 			ClientReceiver cr = new ClientReceiver(socket);
 			cr.start();
+			ClientInterface ci = new ClientInterface(socket);
+			ci.start();
+			
+			while (cr.isAlive() && ci.isAlive()) {
+				System.out.println("Main waiting...");
+				Thread.sleep(60000);
+			}
+			
+			if (cr.isAlive()) {
+				cr.interrupt();
+			}
+			System.out.println("ClientReceiver thread end");
+			
+			if (ci.isAlive()) {
+				ci.interrupt();
+			}
+			System.out.println("ClientInterface thread end");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	
-	public static void main(String[] args) throws InterruptedException {
-		while (true) {
-			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 //		try {
 //			

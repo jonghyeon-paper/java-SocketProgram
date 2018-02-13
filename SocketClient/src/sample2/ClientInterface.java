@@ -1,10 +1,11 @@
+package sample2;
 import java.net.Socket;
 
-public class ClientCommand extends Thread {
+public class ClientInterface extends Thread {
 	
 	private Socket socket;
 	
-	public ClientCommand(Socket socket) {
+	public ClientInterface(Socket socket) {
 		this.socket = socket;
 	}
 	
