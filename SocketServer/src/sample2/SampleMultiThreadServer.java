@@ -30,9 +30,6 @@ public class SampleMultiThreadServer extends Thread {
 			pw = new PrintWriter(new OutputStreamWriter(os));
 			br = new BufferedReader(new InputStreamReader(is));
 			
-			TickMessage tickMessage = new TickMessage(pw);
-			tickMessage.start();
-			
 			String line = new String();
 			while ((line = br.readLine()) != null) {
 				// receive message

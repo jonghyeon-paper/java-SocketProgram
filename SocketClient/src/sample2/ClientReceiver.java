@@ -19,19 +19,14 @@ public class ClientReceiver extends Thread {
 		try {
 			is = socket.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			
 			while (true) {
 				System.out.println("receive message : " + br.readLine());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (is != null) {
-					is.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			System.out.println("Thread cr end");
 		}
 	}
 }
