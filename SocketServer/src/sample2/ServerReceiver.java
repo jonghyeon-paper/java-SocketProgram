@@ -33,6 +33,11 @@ public class ServerReceiver extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			System.out.println("Thread sr end");
 		}
 	}

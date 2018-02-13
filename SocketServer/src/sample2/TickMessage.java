@@ -1,12 +1,15 @@
 package sample2;
-import java.io.PrintWriter;
+import java.net.Socket;
 
 public class TickMessage extends Thread {
 	
-	private PrintWriter pw;
+	private Socket socket;
 	
-	public TickMessage(PrintWriter pw) {
-		this.pw = pw;
+	private ServerSender serverSender;
+	
+	public TickMessage(Socket socket) {
+		this.socket = socket;
+		serverSender = new ServerSender(this.socket);
 	}
 	
 	@Override
@@ -14,9 +17,10 @@ public class TickMessage extends Thread {
 		try {
 			int count = 0;
 			while (true) {
+				if (!serverSender.sendMessage("tick-" + ++count)) {
+					break;
+				}
 				Thread.sleep(3000);
-				pw.println("tick : " + ++count + "(server)");
-				pw.flush();
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

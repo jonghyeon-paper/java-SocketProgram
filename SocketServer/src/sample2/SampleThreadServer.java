@@ -20,6 +20,9 @@ public class SampleThreadServer {
 				
 				ServerReceiver serverReceiver = new ServerReceiver(socket);
 				serverReceiver.start();
+				
+				TickMessage tickMessage = new TickMessage(socket);
+				tickMessage.start();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
