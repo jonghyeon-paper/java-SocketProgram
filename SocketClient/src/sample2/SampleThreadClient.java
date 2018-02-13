@@ -2,8 +2,12 @@ package sample2;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashSet;
 
 public class SampleThreadClient {
+	
+	public static HashSet<Integer> packetArchive = new HashSet<>();
+	
 	public static void main(String[] args) {
 		Socket socket = null;
 		ClientReceiver cr =  null;

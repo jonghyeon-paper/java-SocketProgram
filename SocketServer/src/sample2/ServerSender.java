@@ -20,7 +20,7 @@ public class ServerSender {
 		try {
 			os = socket.getOutputStream();
 			pw = new PrintWriter(new OutputStreamWriter(os));
-			pw.println(message + "(server)");
+			pw.println(message);
 			pw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

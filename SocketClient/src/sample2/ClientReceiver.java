@@ -21,7 +21,14 @@ public class ClientReceiver extends Thread {
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			
 			while (true) {
-				System.out.println("receive message : " + br.readLine());
+				String message = br.readLine();
+				System.out.println("receive message : " + message);
+				if (message.indexOf("@@") > -1) {
+					Integer receivePacketCount = Integer.parseInt(message.split("@@")[1]);
+					if (SampleThreadClient.packetArchive.contains(receivePacketCount)) {
+						SampleThreadClient.packetArchive.remove(receivePacketCount);
+					}
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
