@@ -5,10 +5,10 @@ import java.io.InputStreamReader;
 
 public class ClientInterface extends Thread {
 	
-	private MessageSender messageSender;
+	private MessageController messageReceiver;
 	
-	public ClientInterface(MessageSender messageSender) {
-		this.messageSender = messageSender;
+	public ClientInterface(MessageController messageReceiver) {
+		this.messageReceiver = messageReceiver;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class ClientInterface extends Thread {
 					blocking = false;
 				}
 				
-				if (messageSender.sendMessage(line, blocking)) {
+				if (messageReceiver.sendMessage(line, blocking)) {
 					// TODO after process
 					System.out.println(true);
 				} else {

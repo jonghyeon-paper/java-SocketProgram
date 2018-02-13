@@ -9,16 +9,15 @@ public class SocketController {
 	private static SocketController instance;
 	
 	private Socket socket = null;
-	private MessageSender messageSender;
-	private MessageReceiver messageReceiver;
+	
+	private MessageController messageController;
 	
 	private SocketController() {
 		try {
 			socket = new Socket("127.0.0.1", 12000);
 			
-			messageReceiver = new MessageReceiver(socket);
-			messageReceiver.start();
-			messageSender = new MessageSender(socket);
+			messageController = new MessageController(socket);
+			messageController.start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -34,16 +33,12 @@ public class SocketController {
 		}
 		return instance;
 	}
-	
-	public MessageSender getMessageSender() {
-		return messageSender;
-	}
-	
+
 	public void close() {
 		if (instance != null) {
-			if (messageReceiver.isAlive()) {
-				messageReceiver.interrupt(); // 버퍼 리드 상태라 쓰레드를 정지시킬 수 없다. // 대안1. NIO. 
-				System.out.println("kill messageReceiver");
+			if (messageController.isAlive()) {
+				messageController.interrupt(); // 버퍼 리드 상태라 쓰레드를 정지시킬 수 없다. // 대안1. NIO. 
+				System.out.println("kill messageController");
 			}
 			
 			try {
@@ -55,5 +50,9 @@ public class SocketController {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public MessageController getMessageController() {
+		return messageController;
 	}
 }
