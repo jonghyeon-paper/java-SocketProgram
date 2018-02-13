@@ -49,6 +49,8 @@ public class MessageSender extends Thread {
 					}
 					Thread.sleep(10000);
 				}
+			} else {
+				response = true;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -31,8 +31,10 @@ public class ClientInterface extends Thread {
 				
 				if (messageSender.sendMessage(line, blocking)) {
 					// TODO after process
+					System.out.println(true);
 				} else {
 					// TODO fail process
+					System.out.println(false);
 				}
 			}
 		} catch (IOException e) {
