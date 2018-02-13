@@ -1,9 +1,6 @@
 package sample3;
-import java.util.HashSet;
 
 public class SampleThreadClient {
-	
-	public static HashSet<Integer> packetArchive = new HashSet<>();
 	
 	public static void main(String[] args) {
 		try {

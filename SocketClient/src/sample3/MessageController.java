@@ -8,9 +8,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.Random;
 
 public class MessageController extends Thread {
+	
+	public static HashSet<Integer> blockingKeyArchive = new HashSet<>();
 	
 	private Socket socket;
 	
@@ -36,8 +39,8 @@ public class MessageController extends Thread {
 				// 2. 응답
 				if (message.indexOf("--") > -1) {
 					Integer receivePacketCount = Integer.parseInt(message.split("--")[0]);
-					if (SampleThreadClient.packetArchive.contains(receivePacketCount)) {
-						SampleThreadClient.packetArchive.remove(receivePacketCount);
+					if (MessageController.blockingKeyArchive.contains(receivePacketCount)) {
+						MessageController.blockingKeyArchive.remove(receivePacketCount);
 					}
 				}
 				
@@ -53,7 +56,7 @@ public class MessageController extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("MessageReceiver thread has ended");
+			System.out.println("MessageController thread has ended");
 		}
 	}
 	
@@ -68,7 +71,7 @@ public class MessageController extends Thread {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(os));
 			
 			if (blocking) {
-				SampleThreadClient.packetArchive.add(randomKey);
+				MessageController.blockingKeyArchive.add(randomKey);
 				message = randomKey + "--" + message;
 			}
 			
@@ -79,7 +82,7 @@ public class MessageController extends Thread {
 				int count = 0;
 				while (true) {
 					System.out.println("Waiting : " + randomKey);
-					if (!SampleThreadClient.packetArchive.contains(randomKey)) {
+					if (!MessageController.blockingKeyArchive.contains(randomKey)) {
 						System.out.println("Receive : " + randomKey);
 						response = true;
 						break;
