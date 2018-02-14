@@ -8,7 +8,7 @@ public class SocketController {
 	
 	private static SocketController instance;
 	
-	private Socket socket = null;
+	private Socket socket;
 	
 	private MessageController messageController;
 	
@@ -33,7 +33,7 @@ public class SocketController {
 		}
 		return instance;
 	}
-
+	
 	public void close() {
 		if (instance != null) {
 			if (messageController.isAlive()) {

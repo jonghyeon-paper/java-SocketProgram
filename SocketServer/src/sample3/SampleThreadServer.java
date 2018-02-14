@@ -18,10 +18,10 @@ public class SampleThreadServer {
 				InetAddress ip = socket.getInetAddress();
 				System.out.println("connected : " + ip);
 				
-				ServerReceiver serverReceiver = new ServerReceiver(socket);
-				serverReceiver.start();
+				MessageController messageController = new MessageController(socket);
+				messageController.start();
 				
-				TickMessage tickMessage = new TickMessage(socket);
+				TickMessage tickMessage = new TickMessage(messageController);
 				tickMessage.start();
 			}
 		} catch (IOException e) {
